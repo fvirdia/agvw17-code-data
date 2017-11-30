@@ -1,0 +1,6 @@
+[submodule "newestimator"]
+	path = newestimator
+	url = https://bitbucket.org/malb/lwe-estimator.git
+[submodule "oldestimator"]
+	path = oldestimator
+	url = git@bitbucket.org:malb/lwe-estimator.git
