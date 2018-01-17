@@ -15,7 +15,7 @@ import oldestimator.estimator as oldestimator
 from sage.all import sqrt, Infinity, log, ceil, ZZ, RR, pi
 
 def mcost(cost, kwd):
-    res = "%10s beta %3d, dim %4d, rop %6.2f, red %6.2f"%(kwd, cost[kwd]["beta"], cost[kwd]["d"], cost[kwd]["rop"], cost[kwd]["red"])
+    res = "%10s beta %3d, dim %4d, rop %6.2f, red %6.2f"%(kwd, cost[kwd]["beta"], cost[kwd]["d"], log(cost[kwd]["rop"],2).n(), log(cost[kwd]["red"], 2).n())
     return res
 
 def Lizard():
@@ -24,7 +24,7 @@ def Lizard():
     """
 
     def _lizard(n, alpha, q, h, asymptotic):
-        reduction_cost_model = lambda beta, d, B: asymptotic(beta, d)
+        reduction_cost_model = lambda beta, d, B: 2**asymptotic(beta, d)
 
         sd = alpha * q / sqrt(2*pi)
         small = sqrt(1.5)*sd # ternary secret
@@ -82,7 +82,7 @@ def HELib():
     """
 
     def _helib(n, sd, q, h, asymptotic):
-        reduction_cost_model = lambda beta, d, B: asymptotic(beta, d)
+        reduction_cost_model = lambda beta, d, B: 2**asymptotic(beta, d)
 
         alpha = RR(sqrt(2*pi)*sd/q)
         small = sqrt(1.5)*sd # ternary
@@ -149,7 +149,7 @@ def SEAL():
     def _seal(n, sd, q, asymptotic):
         optimisation_target = "sieve"
         oldestimator.bkz_runtime_k_sieve_asymptotic = asymptotic
-        reduction_cost_model = lambda beta, d, B: asymptotic(beta, d)
+        reduction_cost_model = lambda beta, d, B: 2**asymptotic(beta, d)
 
 
         alpha = RR(sqrt(2*pi)*sd/q)
@@ -200,7 +200,7 @@ def Tesla():
     def _tesla(n, sd, q, m, asymptotic):
         optimisation_target = "sieve"
         oldestimator.bkz_runtime_k_sieve_asymptotic = asymptotic
-        reduction_cost_model = lambda beta, d, B: asymptotic(beta, d)
+        reduction_cost_model = lambda beta, d, B: 2**asymptotic(beta, d)
         alpha = RR(sd)/q*sqrt(2*pi)
 
         old = oldestimator.kannan(n, alpha, q, optimisation_target=optimisation_target, samples=m)
@@ -245,7 +245,7 @@ def FVSHE():
     """
 
     def _fvshe(n, sd, q, asymptotic):
-        reduction_cost_model = lambda beta, d, B: asymptotic(beta, d)
+        reduction_cost_model = lambda beta, d, B: 2**asymptotic(beta, d)
 
         alpha = RR(sqrt(2*pi)*sd/q)
         small = sqrt(1.5)*sd # ternary
